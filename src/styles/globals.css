@@ -2,17 +2,36 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+@layer base {
+  @font-face {
+    font-family: 'Jura'; /*Ive added a prefix to let me know its a variable font*/
+    font-style: normal;
+    font-weight: 200 700;
+    src: local('Jura'),
+      url(/fonts/google/jura/Jura-VariableFont_wght.ttf) format('truetype');
+    font-display: swap;
+  }
 }
 
-@media (prefers-color-scheme: dark) {
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 230, 230, 230;
+  --background-end-rgb: 240, 240, 240;
+}
+
+/* @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
     --background-start-rgb: 0, 0, 0;
     --background-end-rgb: 0, 0, 0;
+  }
+} */
+
+.modal-image-wrapper img {
+  width: 350px;
+  max-height: auto;
+  @media (min-width: 640px) {
+    width: 600px;
   }
 }
 

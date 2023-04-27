@@ -1,4 +1,7 @@
 /** @type {import('tailwindcss').Config} */
+const defaultTheme = require('tailwindcss/defaultTheme');
+const { fontFamily } = require('tailwindcss/defaultTheme');
+
 module.exports = {
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
@@ -6,7 +9,18 @@ module.exports = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+    screens: {
+      small: '400px',
+      ...defaultTheme.screens,
+    },
+    fontFamily: {
+      sans: ['Jura', 'Arial', fontFamily.sans],
+      serif: ['Merriweather Sans, Georgia', fontFamily.serif],
+    },
     extend: {
+      fontFamily: {
+        sans: ['Jura', ...fontFamily.sans],
+      },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
@@ -15,4 +29,4 @@ module.exports = {
     },
   },
   plugins: [],
-}
+};
