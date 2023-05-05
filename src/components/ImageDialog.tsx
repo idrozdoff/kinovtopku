@@ -1,19 +1,29 @@
-import { useState } from 'react';
+import { useContext } from 'react';
 import Modal from 'react-modal';
-import type { Props } from '@/types/utils';
+import {
+  ImageDialogContext,
+  ImageDialogContextType,
+} from '@/context/ContextWrapper';
+import Image from 'next/image';
 
-export const ImageDialog = ({ children }: Props) => {
-  const [isOpen, setIsOpen] = useState(false);
+export default function ImageDialog() {
+  const { imageModal, setImageModal } = useContext(
+    ImageDialogContext
+  ) as ImageDialogContextType;
 
-  const handleShowDialog = () => setIsOpen(prev => !prev);
+  const { isOpen, link } = imageModal;
+
+  const toggleDialog = () =>
+    setImageModal(prev => ({
+      ...prev,
+      isOpen: !prev.isOpen,
+    }));
 
   return (
     <div>
-      <div onClick={handleShowDialog}>{children}</div>
       <Modal
         isOpen={isOpen}
-        onRequestClose={handleShowDialog}
-        contentLabel="Example Modal"
+        onRequestClose={toggleDialog}
         style={{
           overlay: {
             display: 'flex',
@@ -29,11 +39,19 @@ export const ImageDialog = ({ children }: Props) => {
       >
         <div
           className="modal-image-wrapper mx-auto"
-          onClick={handleShowDialog}
+          onClick={toggleDialog}
         >
-          {children}
+          <Image
+            src={link}
+            alt="modalImage"
+            className="flex mx-auto px-[12px] min-w-[250px] min-h-[175px] cursor-pointer"
+            width={250}
+            height={175}
+            placeholder="blur"
+            blurDataURL="/loadingImg.png"
+          />
         </div>
       </Modal>
     </div>
   );
-};
+}

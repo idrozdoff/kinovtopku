@@ -1,11 +1,17 @@
-import type { NotFound, PropFilm, PagePropFilm } from '@/types/utils';
+import type { Film } from '@/types/utils';
+import { isString } from '@/types/utils';
 import Image from 'next/image';
 import Header from '@/components/Header';
-import { GetServerSidePropsContext, GetServerSideProps } from 'next';
+import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { crewType } from '@/utils/utils';
 import Carousel from '@/components/Carousel/Carousel';
+import api from '@/apiSingleton';
 
-function Film({ film }: PropFilm) {
+type PropsFilm = {
+  film: Film;
+};
+
+export default function Film({ film }: PropsFilm) {
   const { poster, name, description, crew, shoots } = film;
   return (
     <div className="min-h-screen bg-white">
@@ -47,17 +53,18 @@ function Film({ film }: PropFilm) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps<
-  PagePropFilm | NotFound
-> = async (context: GetServerSidePropsContext) => {
+export async function getServerSideProps(
+  context: GetServerSidePropsContext
+): Promise<GetServerSidePropsResult<PropsFilm>> {
   const { filmName } = context.query;
-  const res = await fetch(`http://localhost:3000/api/film/${filmName}`);
-  const data = await res.json();
-  if (data?.film?.notFound) {
-    return data;
+  if (isString(filmName)) {
+    const res = await api.films.fetchFilmInfo(filmName);
+    if (res?.film?.notFound) {
+      return res;
+    }
+    return { props: { film: res.film } };
+  } else {
+    console.log('Wrong params');
   }
-
-  return { props: { film: data.film } };
-};
-
-export default Film;
+  return { notFound: true };
+}

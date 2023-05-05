@@ -1,4 +1,7 @@
-import { CrewTypeObject } from '@/types/utils';
+type CrewTypeObject = {
+  'starring': string;
+  'creators': string;
+};
 
 export function trimStr(str: string, limit: number): string {
   if (str.length <= limit) return str;

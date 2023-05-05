@@ -1,12 +1,13 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import headerImg from '../assets/image1.png';
 
-const Header = () => {
+export default function Header() {
   return (
     <Link href="/">
       <div className="flex border-solid border-b border-gray-300 bg-white">
         <Image
-          src="/image1.png"
+          src={headerImg}
           alt="Logo"
           className="flex space-betwen ml-14 m-5 small:ml-16  cursor-pointer"
           width={100}
@@ -19,6 +20,4 @@ const Header = () => {
       </div>
     </Link>
   );
-};
-
-export default Header;
+}

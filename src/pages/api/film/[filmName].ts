@@ -1,11 +1,19 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next';
-import type { Film, NotFound, ApiFilmData } from '@/types/utils';
+import type { Film } from '@/types/utils';
 import { filmsList } from '@/utils/mock';
+
+type NotFound = {
+  notFound: boolean;
+};
+
+type FilmData = {
+  film: Film | NotFound;
+};
 
 export default function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ApiFilmData>
+  res: NextApiResponse<FilmData>
 ) {
   const { filmName } = req.query;
   let film: Film | NotFound = { notFound: true };

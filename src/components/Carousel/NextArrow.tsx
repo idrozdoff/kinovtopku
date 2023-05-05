@@ -1,7 +1,8 @@
 import Image from 'next/image';
 import { ArrowType } from '@/types/utils';
+import arrowRight from '../../assets/icons/arrowRight.svg';
 
-export const NextArrow = (props: ArrowType) => {
+export default function NextArrow(props: ArrowType) {
   const { onClick } = props;
   return (
     <div
@@ -9,7 +10,7 @@ export const NextArrow = (props: ArrowType) => {
       onClick={onClick}
     >
       <Image
-        src="/icons/arrowRight.svg"
+        src={arrowRight}
         alt="arrowRigth"
         className="w-[30px] h-[175px]"
         width={30}
@@ -17,4 +18,4 @@ export const NextArrow = (props: ArrowType) => {
       />
     </div>
   );
-};
+}

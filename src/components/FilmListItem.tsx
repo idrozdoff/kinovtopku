@@ -1,9 +1,14 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { PropFilmList } from '@/types/utils';
+import { Film } from '@/types/utils';
 import { trimStr } from '@/utils/utils';
 
-const FilmListItem = ({ item, index }: PropFilmList) => {
+type PropFilmList = {
+  item: Film;
+  index: number;
+};
+
+export default function FilmListItem({ item, index }: PropFilmList) {
   return (
     <Link href={`/film/${item.name}`}>
       <div className="cursor-pointer flex border-solid border-b border-gray-300 hover:bg-gray-100 transition-colors duration-300">
@@ -29,6 +34,4 @@ const FilmListItem = ({ item, index }: PropFilmList) => {
       </div>
     </Link>
   );
-};
-
-export default FilmListItem;
+}

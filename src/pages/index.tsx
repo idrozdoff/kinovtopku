@@ -1,9 +1,14 @@
-import type { propFilmsList } from '@/types/utils';
+import type { Film } from '@/types/utils';
 import Header from '@/components/Header';
 import FilmListItem from '@/components/FilmListItem';
-import { NextPage } from 'next';
+import { AppProps, AppContext } from 'next/app';
+import api from '@/apiSingleton';
 
-const Home: NextPage<propFilmsList> = ({ filmsList }) => {
+export type PropsFilmsList = {
+  filmsList: Film[];
+};
+
+export function FilmsList({ filmsList }: PropsFilmsList & AppProps) {
   return (
     <>
       <Header />
@@ -18,12 +23,17 @@ const Home: NextPage<propFilmsList> = ({ filmsList }) => {
       </div>
     </>
   );
+}
+
+FilmsList.getInitialProps = async (
+  context: AppContext
+): Promise<PropsFilmsList | unknown> => {
+  let initialProps: PropsFilmsList = { filmsList: [] };
+  const res = await api.films.fetchFilms();
+  if (Array.isArray(res?.filmsList)) {
+    initialProps.filmsList = res.filmsList;
+  }
+  return initialProps;
 };
 
-Home.getInitialProps = async (): Promise<propFilmsList> => {
-  const res = await fetch('http://localhost:3000/api/films');
-  const json = await res.json();
-  return { filmsList: json.filmsList };
-};
-
-export default Home;
+export default FilmsList;
